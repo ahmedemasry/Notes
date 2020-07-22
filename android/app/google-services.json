@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "820657682578",
+    "firebase_url": "https://intro-login-55167.firebaseio.com",
+    "project_id": "intro-login-55167",
+    "storage_bucket": "intro-login-55167.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820657682578:android:93eb1ec222f6673d054e4b",
+        "android_client_info": {
+          "package_name": "com.example.login_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820657682578-mlngp0in7frv1rep5gp4cpi83kh4i8rn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfFAZiEIpawZ4lt4EJtYAdUO2gjX3u-Dc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820657682578-mlngp0in7frv1rep5gp4cpi83kh4i8rn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
