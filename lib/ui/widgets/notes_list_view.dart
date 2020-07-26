@@ -23,7 +23,16 @@ class NotesListView extends StatelessWidget {
             final note = Note.fromJson(document.data, document.documentID);
             return ListTile(
                 title: Text( note.title),
+                leading: Hero(
+                    tag: "btn${note.id}",
+                    child: CircleAvatar(child: Icon(Icons.format_align_justify),)),
                 subtitle: Text(note.subTitle ?? ""),
+                trailing: IconButton(
+                  icon: Icon(Icons.delete, color: Colors.blueGrey,),
+                  onPressed: () {
+                    Firestore.instance.collection('users').document(uid).collection('notes').document(note.id).delete();
+                  },
+                ),
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddNoteScreen(uid, note))),
             );
         },);

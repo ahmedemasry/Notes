@@ -28,7 +28,9 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     title.text = widget.note.title;
     subtitle.text = widget.note.subTitle;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(widget.note.title==null?"Add Note":"Edit Note"),
+      ),
       body: Center(
         child: Form(
           key: _formKey,
@@ -52,16 +54,20 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   onChanged: (value) => widget.note.subTitle = subtitle.text,
                 ),
                 SizedBox(height: 10,),
-                OriginalButton(
-                    text: widget.note.title==null?"Add":"Save",textColor: Colors.white, bgColor: Colors.blue,
-                    onPressed:(){
-                      if(_formKey.currentState.validate())
-                      {
-                        Firestore.instance.collection('users').document(widget.uid).collection('notes').document(widget.note.id).setData(widget.note.toJson());
+                Hero(
+                  tag: "btn${widget.note.id}",
+                  child: OriginalButton(
+                      text: widget.note.title==null?"Add":"Save",textColor: Colors.white, bgColor: Colors.blue,
+                      onPressed:(){
+                        print("btn${widget.note.id}");
+                        if(_formKey.currentState.validate())
+                        {
+                          Firestore.instance.collection('users').document(widget.uid).collection('notes').document(widget.note.id).setData(widget.note.toJson());
 //                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(uid: widget.uid,),));
-                      Navigator.pop(context);
+                        Navigator.pop(context);
+                        }
                       }
-                    }
+                  ),
                 ),
               ],
             ),
