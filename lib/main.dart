@@ -50,10 +50,9 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: logged != null
-          ? MyHomePage(title: logged)
+          ? MyHomePage(uid: logged)
           : IntroScreen(),
       routes: {
-        '/home': (context) => MyHomePage(title: 'Home Page'),
         '/intro': (context) => IntroScreen(),
         '/login': (context) => AuthScreen(authType: AuthType.login,),
         '/register': (context) => AuthScreen(authType: AuthType.register,),
@@ -64,5 +63,5 @@ class MyApp extends StatelessWidget {
 
 Future<String> isLogged() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getString('name');
+  return prefs.getString('uid');
 }

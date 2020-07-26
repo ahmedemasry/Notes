@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:login_app/models/user.dart';
 import 'package:login_app/ui/screens/auth_screen.dart';
 import 'package:login_app/ui/screens/home_page.dart';
+import 'package:login_app/ui/screens/user_information_screen.dart';
 import 'package:login_app/ui/services/auth.dart';
 import 'package:login_app/ui/widgets/original_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,17 +37,13 @@ class _AuthFormState extends State<AuthForm> {
           children: <Widget>[
             TextFormField(
               validator: (value) => value.isEmpty ? 'You must enter Email' : null,
-              decoration: InputDecoration(
-                hintText: 'Enter Email'
-              ),
+              decoration: InputDecoration(hintText: 'Enter Email'),
               onChanged: (value) => _name = value,
             ),
             _separator(),
             TextFormField(
               validator: (value) => value.length < 6 ? 'Password must be more than 6 chars' : null,
-              decoration: InputDecoration(
-                hintText: 'Enter Password',
-              ),
+              decoration: InputDecoration(hintText: 'Enter Password',),
               obscureText: true,
               onChanged: (value) => _password = value,
             ),
@@ -59,35 +57,22 @@ class _AuthFormState extends State<AuthForm> {
                   onPressed: () async{
                     if(_formKey.currentState.validate())
                     {
+                      User res;
                       if(widget.authType==AuthType.login) //Login
                         {
-                          var res = await authBase.loginUser(_name, _password);
-                          if(res == null)
-                          {
-                            final snack = SnackBar(content: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text('Failed to login',),
-                                Icon(Icons.error),
-                              ],
-                            ),
-                              backgroundColor: Colors.redAccent,
-                              behavior: SnackBarBehavior.floating,
-                            );
-
-                            Scaffold.of(context).showSnackBar(snack);
-                          }
+                          res = await authBase.loginUser(_name, _password);
+//                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => UserInfoScreen(res.uid),));
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyHomePage(uid: res.uid),));
                           print('Successful Login');
 
                         }
                       else //Register
                         {
-                          await authBase.registerUser(_name, _password);
-//                          Navigator.of(context).pushReplacementNamed('/home');
+                          res = await authBase.registerUser(_name, _password);
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => UserInfoScreen(res.uid),));
                           print('Successful Register');
                         }
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyHomePage(title: _name),));
-                      markLogged(_name);
+                      markLogged(res.uid);
                     }
                   },
                 ),
@@ -110,9 +95,9 @@ class _AuthFormState extends State<AuthForm> {
   _separator(){
     return SizedBox(height: 10,);
   }
-  void markLogged(String name) async {
+  void markLogged(String uid) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('name', name);
+    prefs.setString('uid', uid);
   }
 
 }

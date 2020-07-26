@@ -45,7 +45,6 @@ class AuthScreen extends StatelessWidget {
                         height: MediaQuery.of(context).size.height*.35,
                       ),
                     ),
-
                   ],
                 ),
               ),
