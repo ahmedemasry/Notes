@@ -20,7 +20,7 @@ class NotesListView extends StatelessWidget {
           itemCount: notesCount,
           itemBuilder: (context, index) {
             DocumentSnapshot document = snapshot.data.documents[index];
-            final note = Note.fromJson(document.data);
+            final note = Note.fromJson(document.data, document.documentID);
             return ListTile(
                 title: Text( note.title),
                 subtitle: Text(note.subTitle ?? ""),

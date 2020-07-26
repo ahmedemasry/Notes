@@ -4,12 +4,14 @@ class Note {
   String imageURL;
   String title;
   String subTitle;
+  String id;
 
   Note({this.imageURL, this.title, this.subTitle});
 
-  Note.fromJson(Map<String, dynamic> json) {
+  Note.fromJson(Map<String, dynamic> json, documentID) {
     title = json['title'];
     subTitle = json['subtitle'];
+    id = documentID;
   }
 
   Map<String, dynamic> toJson() {

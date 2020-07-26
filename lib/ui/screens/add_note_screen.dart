@@ -57,7 +57,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     onPressed:(){
                       if(_formKey.currentState.validate())
                       {
-                        Firestore.instance.collection('users').document(widget.uid).collection('notes').document().setData(widget.note.toJson());
+                        Firestore.instance.collection('users').document(widget.uid).collection('notes').document(widget.note.id).setData(widget.note.toJson());
 //                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(uid: widget.uid,),));
                       Navigator.pop(context);
                       }
