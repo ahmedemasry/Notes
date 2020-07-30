@@ -5,6 +5,7 @@ import 'package:login_app/models/user.dart';
 import 'package:login_app/ui/screens/add_note_screen.dart';
 import 'package:login_app/ui/screens/auth_screen.dart';
 import 'package:login_app/ui/services/auth.dart';
+import 'package:login_app/ui/widgets/app_drawer.dart';
 import 'package:login_app/ui/widgets/notes_list_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,6 +29,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(widget.uid),
+      drawerEdgeDragWidth: 40,
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
@@ -39,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
         title: StreamBuilder<Object>(
-          stream: Firestore.instance.collection('users').document(widget.uid).snapshots(),
+          stream: User.getUserDocumentFromFirebase(widget.uid),//Firestore.instance.collection('users').document(widget.uid).snapshots(),
           builder: (context, snapshot) {
             if(!snapshot.hasData) return Center(child: CircularProgressIndicator());
             // ignore: unnecessary_statements
@@ -50,7 +53,6 @@ class _MyHomePageState extends State<MyHomePage> {
               default: return Center(child: Text(documentSnapshot.data['name']),);
 
             }
-            return Center(child: Text(snapshot.data));
           },
         ),
       ),
@@ -72,3 +74,4 @@ class _MyHomePageState extends State<MyHomePage> {
     prefs.remove('uid');
   }
 }
+

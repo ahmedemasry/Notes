@@ -33,6 +33,10 @@ dependencies:
   shared_preferences: ^0.5.8
   cloud_firestore: ^0.13.7
 
+  image_picker: ^0.6.7+4
+  camera:
+  path: ^1.6.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

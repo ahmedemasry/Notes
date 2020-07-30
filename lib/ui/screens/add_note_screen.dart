@@ -54,6 +54,31 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   onChanged: (value) => widget.note.subTitle = subtitle.text,
                 ),
                 SizedBox(height: 10,),
+                Card(
+                  elevation: 5,
+//                  color: Colors.greenAccent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(" Due Date:"),
+                      Text("${widget.note.dueDate ?? DateTime.now()}"),
+                      IconButton(icon: Icon(Icons.calendar_today), color: Colors.blue,
+                          onPressed: () async {
+                        DateTime picked = await showDatePicker(
+                            context: context,
+                            initialDate: widget.note.dueDate ?? DateTime.now(),
+                            firstDate: (widget.note.dueDate.isBefore(DateTime.now())) ? widget.note.dueDate : DateTime.now(),
+                            lastDate: DateTime(DateTime.now().year+3));
+                        if(picked != null)
+                        {
+                          widget.note.dueDate = picked;
+                        }
+                      }
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10,),
                 Hero(
                   tag: "btn${widget.note.id}",
                   child: OriginalButton(

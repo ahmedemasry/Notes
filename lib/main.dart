@@ -7,6 +7,16 @@ import 'package:login_app/ui/widgets/auth_form.dart';
 import 'package:login_app/ui/widgets/original_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+/*
+To Do List
+- Notification for Note before its dueDate
+- Save the user's device token.
+- Notification When the user enters from a different devices
+- Note Image
+
+ */
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 //  SharedPreferences prefs = await SharedPreferences.getInstance();

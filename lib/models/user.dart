@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'note.dart';
 
 class User{
   final uid;
   String name;
+  String email;
   int age;
 //  String profilePicture;
 //  List<Note> _notes;
@@ -26,6 +29,16 @@ class User{
     data['name'] = this.name;
     data['age'] = this.age;
     return data;
+  }
+
+  static Future<String> getUserEmail(String uid) async{
+    FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
+    String email = firebaseUser.email;
+    return email;
+  }
+  static Stream<DocumentSnapshot> getUserDocumentFromFirebase(String uid) {
+    Stream<DocumentSnapshot> o = Firestore.instance.collection('users').document(uid).snapshots();
+    return o;
   }
 //
 //
