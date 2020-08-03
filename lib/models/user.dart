@@ -40,6 +40,20 @@ class User{
     Stream<DocumentSnapshot> o = Firestore.instance.collection('users').document(uid).snapshots();
     return o;
   }
+
+  static setProfilePicture(String uid, String url) {
+    Firestore.instance.collection('users').document(uid).updateData(
+      {'profilePicture' : url}
+    );
+  }
+
+//  static Future<Stream<DocumentSnapshot>> getUserProfilePicture(String uid) async {
+//    DocumentSnapshot o = Firestore.instance.collection('users').document(uid).;
+//    o.
+//    return o;
+//  }
+
+
 //
 //
 //  List<Note> get notes{

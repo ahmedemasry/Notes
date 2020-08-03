@@ -7,6 +7,7 @@ import 'package:login_app/ui/screens/image_pick.dart';
 
 class AppDrawer extends StatefulWidget {
   final uid;
+  String imageUrl;
   AppDrawer(this.uid);
 
   @override
@@ -22,7 +23,7 @@ class _AppDrawerState extends State<AppDrawer> {
           children: <Widget>[
             UserAccountsDrawerHeader(
               accountName: StreamBuilder<Object>(
-                  stream: Firestore.instance.collection('users').document(widget.uid).snapshots(),
+                  stream: User.getUserDocumentFromFirebase(widget.uid),//Firestore.instance.collection('users').document(widget.uid).snapshots(),
                   builder: (context, snapshot) {
                     if(!snapshot.hasData) return CircularProgressIndicator();
                     // ignore: unnecessary_statements
@@ -41,19 +42,26 @@ class _AppDrawerState extends State<AppDrawer> {
                   if(!snapshot.hasData) return Center(child: CircularProgressIndicator());
                   return Text(snapshot.data ?? "");
                 },),
-              currentAccountPicture: CircleAvatar(
-                foregroundColor: Theme.of(context).primaryColorDark,
-                child: Text('A', style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                ),
+              currentAccountPicture: StreamBuilder<Object>(
+                stream: User.getUserDocumentFromFirebase(widget.uid),
+                builder: (context, snapshot) {
+                  if(!snapshot.hasData) return CircleAvatar(foregroundColor: Theme.of(context).primaryColorDark,child: Text('A', style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)));
+                    DocumentSnapshot documentSnapshot = snapshot.data;
+                    widget.imageUrl = documentSnapshot.data['profilePicture'];
+
+                  return documentSnapshot.data['profilePicture']==null
+                      ?CircleAvatar(foregroundColor: Theme.of(context).primaryColorDark,child: Text('A', style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),))
+                      :CircleAvatar(backgroundImage:NetworkImage(widget.imageUrl),);
+                }
               ),
             ),
-//            ivider(color: Theme.of(context).primaryColorLight,),
+//            Divider(color: Theme.of(context).primaryColorLight,),
             Card(
               elevation: 5,
               child: ListTile(
                 title: Text('Set Profile Picture'),
                 onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ImagePick(uid: widget.uid,)));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ImagePick(uid: widget.uid,imageUrl: widget.imageUrl,)));
                 },
               ),
             ),

@@ -67,7 +67,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                         DateTime picked = await showDatePicker(
                             context: context,
                             initialDate: widget.note.dueDate ?? DateTime.now(),
-                            firstDate: (widget.note.dueDate.isBefore(DateTime.now())) ? widget.note.dueDate : DateTime.now(),
+                            firstDate: widget.note.dueDate==null ? DateTime.now() : (widget.note.dueDate.isBefore(DateTime.now())) ? widget.note.dueDate : DateTime.now(),
                             lastDate: DateTime(DateTime.now().year+3));
                         if(picked != null)
                         {
